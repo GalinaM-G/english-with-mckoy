@@ -1,0 +1,640 @@
+@use 'sass:math';
+
+@import '_reset';
+@import '_fonts';
+@import '_vars';
+@import '_mixins';
+@import 'global';
+
+
+.header {
+    position: fixed;
+    width: 100%;
+    z-index: 4;
+
+    transition: background-color 0.3s;
+    border: 1px solid var(--clr-hover);
+
+    &.scroll {
+        background-color: var(--clr-bgr);
+    }
+
+    &__nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: toRem(12) toRem(24);
+        padding: toRem(14) 0;
+    }
+}
+
+.menu {
+    font-size: percent(16, 16);
+    text-transform: uppercase;
+
+    &__link {
+            font-weight: 600;
+    
+            &.active {
+                color: var(--clr-active);
+            }
+        }
+
+    &__button {
+        padding: toRem(10) toRem(18);
+        margin: toRem(4) 0;
+        border: 2px solid var(--clr-main-font);
+        border-radius: toRem(10);
+        line-height: 1;
+        white-space: nowrap;
+        transition: all 0.3s;
+
+
+        svg {
+            width: toRem(24);
+            height: toRem(24);
+            fill: var(--clr-main-font);
+            stroke: var(--clr-main-font);
+            stroke-width: toRem(1);
+            transition: all 0.3s;
+        }
+
+        &:hover {
+            border: 2px solid var(--clr-decor);
+            color: var(--clr-bgr);
+            background-color: var(--clr-decor);
+        }
+
+        &:hover svg {
+            fill: var(--clr-bgr);
+            stroke: var(--clr-bgr);
+        }
+
+
+    }
+
+    &__list {
+        display: flex;
+        flex-wrap: nowrap;
+        row-gap: toRem(12);
+        gap: toRem(30);
+        font-family: var(--font-body);
+        font-weight: 400;
+
+        @media screen and (max-width: toRem(1270)) {
+            flex-direction: column;
+            justify-content: center;
+            padding: toRem(80) 0;
+        }
+    }
+
+    @media screen and (max-width: toRem(1270)) {
+        display: flex;
+        flex-direction: column;
+        gap: toRem(30);
+        position: absolute;
+        text-align: center;
+        padding: 81px 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 100vh;
+        overflow-y: auto;
+        background-color: var(--clr-bgr);
+
+        transform: translateX(-200%);
+        transition: transform 1s;
+    }
+
+    &.active {
+        transform: translateX(0);
+        transition: transform 0.5s;
+    }
+
+    &__item {
+        white-space: nowrap;
+        transition: color 0.3s;
+
+        &:hover {
+            color: var(--clr-hover);
+        }
+    }
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: toRem(150);
+
+
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s;
+}
+
+.burger {
+    display: none;
+    position: relative;
+    width: 70px;
+    height: 44px;
+    z-index: 100;
+
+    &.active span {
+        transform: scale(0);
+    }
+
+    &.active::before {
+        transform: rotate(45deg);
+        top: 21px;
+    }
+
+    &.active::after {
+        transform: rotate(-45deg);
+        bottom: 21px;
+    }
+
+    @media screen and (max-width: toRem(1270)) {
+        display: block;
+    }
+
+    &__btn {
+        top: 21px;
+        position: absolute;
+    }
+
+    &::before,
+    &::after,
+    &__btn {
+        position: absolute;
+        width: 55px;
+        height: 2px;
+        left: 0;
+        background-color: var(--clr-decor);
+
+        @media screen and (max-width: toRem(470)) {
+            width: 44px;
+        }
+    }
+
+    &::before,
+    &::after {
+        content: "";
+        transition: transform 0.2s ease-out;
+    }
+
+    &::before {
+        top: 10px;
+    }
+
+    &::after {
+        bottom: 10px;
+    }
+}
+
+
+.hero {
+
+    &__container {
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: toRem(20);
+        padding-top: toRem(120);
+        padding-bottom: toRem(55);
+
+        @media screen and (max-width: toRem(990)) {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: toRem(30);
+        }
+    }
+
+    &__info {
+        display: inline-flex;
+        flex-direction: column;
+        position: relative;
+        z-index: 3;
+        flex: 1 1 45%;
+    }
+
+    &__pic {
+        display: block;
+        width: 55%;
+        max-width: toRem(600);
+        height: auto;
+    }
+
+    @media screen and (max-width: toRem(950)) {
+
+        &__container {
+            padding-left: toRem(20);
+            padding-right: toRem(20);
+        }
+
+        &__info {
+            width: 100%;
+        }
+
+        &__pic {
+            width: 100%;
+            max-width: toRem(550);
+        }
+    }
+}
+
+// -----------------------------
+// Общие кнопки (CTA)
+// -----------------------------
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: toRem(8);
+    padding: toRem(14) toRem(28);
+    border: 2px solid var(--clr-decor);
+    border-radius: toRem(10);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: percent(14, 16);
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    cursor: pointer;
+    text-align: center;
+    color: var(--clr-decor);
+
+    &:hover {
+        background-color: var(--clr-decor);
+        color: #fff;
+    }
+
+    &--primary {
+        background-color: var(--clr-decor);
+        color: #fff;
+
+        &:hover {
+            background-color: transparent;
+            color: var(--clr-decor);
+        }
+    }
+}
+
+// -----------------------------
+// Hero — заголовок, подзаголовок, теги, CTA
+// -----------------------------
+.hero__heading {
+    font-family: var(--font-heading);
+    font-size: percent(42, 16);
+    font-weight: 500;
+    color: var(--clr-main-font);
+    margin-bottom: toRem(28);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+
+    @media screen and (max-width: toRem(482)) {
+        font-size: percent(28, 16);
+    }
+}
+
+.hero__subheading {
+    font-size: percent(20, 16);
+    font-weight: 400;
+    color: var(--clr-hover);
+    margin-bottom: toRem(30);
+
+    span {
+        font-weight: 700;
+    }
+
+    @media screen and (max-width: toRem(482)) {
+        font-size: percent(16, 16);
+    }
+}
+
+.hero__cta {
+    align-self: flex-start;
+
+    @media screen and (max-width: toRem(1100)) {
+        align-self: center;
+    }
+}
+
+.hero__tags {
+    display: flex;
+    flex-direction: column;
+    gap: toRem(15);
+    margin-bottom: toRem(20);
+}
+
+.hero__tag {
+    display: flex;
+    align-items: center;
+    gap: toRem(3);
+    font-size: percent(14, 16);
+    color: var(--clr-hover);
+
+    svg {
+        width: toRem(18);
+        height: toRem(18);
+        stroke: var(--clr-decor);
+        fill: none;
+        stroke-width: 1.5;
+        flex-shrink: 0;
+    }
+}
+
+.hero__tag-text {
+
+
+        font-weight: 700;
+    
+
+}
+
+/* .hero__more {
+    margin-left: toRem(16);
+    font-size: percent(14, 16);
+    color: var(--clr-hover);
+    text-decoration: underline;
+} */
+
+// -----------------------------
+// Заголовки секций — короткая линия-акцент под текстом
+// -----------------------------
+.title {
+    position: relative;
+    padding-bottom: toRem(18);
+    font-family: var(--font-heading);
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: toRem(36);
+        height: 2px;
+        background-color: var(--clr-decor);
+    }
+}
+
+// -----------------------------
+// Направления обучения — карточки
+// -----------------------------
+.directions__grid {
+    display: flex;
+    gap: toRem(24);
+    flex-wrap: wrap;
+    justify-content: center;
+
+    @media screen and (max-width: toRem(750)) {
+        flex-direction: column;
+    }
+}
+
+.direction-card {
+    flex: 1;
+
+    max-width: 100%;
+    background: #eef3f8;
+    border-radius: toRem(12);
+    padding: toRem(28) toRem(24);
+
+
+    &--alt {
+        background: #f8f6f1;
+    }
+
+    &__head {
+        display: flex;
+        align-items: flex-start;
+        gap: toRem(14);
+        margin-bottom: toRem(16);
+    }
+
+    &__icon {
+        width: toRem(44);
+        height: toRem(44);
+        border-radius: 50%;
+        background: var(--clr-decor);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        svg {
+            width: toRem(22);
+            height: toRem(22);
+            stroke: #fff;
+            fill: none;
+            stroke-width: 1.6;
+        }
+    }
+
+    &__title {
+        font-family: var(--font-heading);
+        font-size: percent(22, 16);
+        font-weight: 500;
+        color: var(--clr-main-font);
+        margin: toRem(4) 0 toRem(2);
+        line-height: 1.25;
+    }
+
+    &__subtitle {
+        font-size: percent(13, 16);
+        color: var(--clr-hover);
+        margin: 0;
+    }
+
+    &__divider {
+        border: none;
+        border-top: 1px solid rgba(31, 51, 80, 0.12);
+        margin: 0 0 toRem(16);
+    }
+
+    &__text {
+        font-size: percent(15, 16);
+        color: var(--clr-hover);
+        margin: 0 0 toRem(10);
+    }
+
+
+}
+
+// -----------------------------
+// Обо мне — заготовка (без цветной подложки, как в референсе)
+// -----------------------------
+.about-placeholder {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: toRem(40);
+
+    justify-content: center;
+    text-align: left;
+
+    @media screen and (max-width: toRem(620)) {
+        flex-direction: column;
+    }
+}
+
+.about-avatar--placeholder {
+    width: toRem(110);
+    height: toRem(150);
+    border-radius: 50%;
+    background: #eef3f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+
+}
+
+.about-placeholder__note {
+    color: var(--clr-hover);
+    font-size: percent(15, 16);
+    max-width: toRem(800);
+
+    span {
+        font-weight: 700;
+    }
+
+    p {
+        margin: 0 0 toRem(10);
+    }
+}
+
+// -----------------------------
+// Стоимость + Готовы начать — полноширинные полосы (как в референсе)
+// -----------------------------
+.plaque-bar {
+    display: flex;
+    align-items: center;
+    gap: toRem(24);
+    flex-wrap: wrap;
+    border-radius: toRem(12);
+    padding: toRem(28) toRem(32);
+    margin-bottom: toRem(20);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &--blue {
+        background: #eef3f8;
+    }
+
+    &--cream {
+        background: #f8f3ee;
+    }
+
+    &__icon {
+        width: toRem(56);
+        height: toRem(56);
+        border-radius: 50%;
+        border: 1.5px solid var(--clr-decor);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        svg {
+            width: toRem(24);
+            height: toRem(24);
+            stroke: var(--clr-decor);
+            fill: none;
+            stroke-width: 1.5;
+        }
+    }
+
+    &__body {
+        flex: 1;
+        min-width: toRem(192);
+        p {
+            margin-bottom: 15px;
+        }
+    }
+
+    &__title {
+        font-family: var(--font-heading);
+        font-size: percent(24, 16);
+        font-weight: 500;
+        color: var(--clr-main-font);
+        margin: 0 0 toRem(6);
+    }
+
+    &__price {
+        font-size: percent(28, 16);
+        font-weight: 600;
+        color: var(--clr-decor);
+        margin: 0 0 toRem(4);
+
+        span {
+            font-size: 50%;
+            color: var(--clr-hover);
+            font-weight: 400;
+        }
+    }
+
+    &__text {
+        font-size: percent(15, 16);
+        color: var(--clr-hover);
+        margin: 0;
+    }
+
+    &__lessons {
+    padding-top: toRem(6);
+    font-weight: 500;
+    }
+
+    &__side {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: toRem(12);
+    }
+
+    &__contacts {
+        display: flex;
+        flex-direction: column;
+        gap: toRem(8);
+    }
+
+    &__contact-item {
+        display: flex;
+        align-items: center;
+        gap: toRem(8);
+        font-size: percent(14, 16);
+        color: var(--clr-hover);
+
+        svg {
+            width: toRem(18);
+            height: toRem(18);
+            stroke: var(--clr-decor);
+            fill: none;
+            stroke-width: 1.5;
+            flex-shrink: 0;
+        }
+    }
+
+    @media screen and (max-width: toRem(650)) {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+
+        &__side {
+            align-items: center;
+        }
+    }
+}
+
+footer {
+    text-align: center;
+    padding: toRem(30) 0;
+}
