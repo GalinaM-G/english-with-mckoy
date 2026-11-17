@@ -590,7 +590,9 @@
 
     &__lessons {
     padding-top: toRem(6);
-    font-weight: 500;
+    font-size: percent(20, 16);
+        font-weight: 600;
+        color: var(--clr-decor);
     }
 
     &__side {
